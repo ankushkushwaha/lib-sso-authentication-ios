@@ -31,7 +31,7 @@ struct ContentView: View {
             }
 
             Button(action: {
-                viewModel.isPresented = true
+                viewModel.isPresentedLogin = true
             }) {
                 Text("Login")
                     .frame(maxWidth: .infinity)
@@ -40,8 +40,22 @@ struct ContentView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
-            .sheet(isPresented: $viewModel.isPresented) {
+            .sheet(isPresented: $viewModel.isPresentedLogin) {
                 LoginUIView(viewModel: viewModel)
+            }
+            
+            Button(action: {
+                viewModel.isPresentedLogout = true
+            }) {
+                Text("Logout")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+            .sheet(isPresented: $viewModel.isPresentedLogout) {
+                LogoutUIView(viewModel: viewModel)
             }
         }
         .padding()
@@ -53,6 +67,21 @@ struct ContentView: View {
             }
         )
     }
+}
+
+
+struct LogoutUIView: UIViewControllerRepresentable {
+    let viewModel: AuthViewModel
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        let viewController = UIViewController()
+        DispatchQueue.main.async {
+            viewModel.logout(viewController: viewController)
+        }
+        return viewController
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
 struct LoginUIView: UIViewControllerRepresentable {
