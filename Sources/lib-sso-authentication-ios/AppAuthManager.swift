@@ -14,9 +14,9 @@ public class AppAuthManager {
     
     private var userAgentSession: OIDExternalUserAgentSession?
     private var authState: OIDAuthState?
-
+    private var authStateService = AuthStateService()
     private init() {}
-
+    
     public func authorize(
         from viewController: UIViewController,
         clientId: String,
@@ -60,6 +60,9 @@ public class AppAuthManager {
             
             self?.authState = authState
             let accessToken = authState.lastTokenResponse?.accessToken
+            
+            self?.authStateService.saveAuthState(authState)
+            
             completion(accessToken, nil)
         }
     }
