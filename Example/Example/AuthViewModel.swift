@@ -8,6 +8,7 @@
 
 import SwiftUI
 import lib_sso_authentication_ios
+import AppAuth
 
 class AuthViewModel: ObservableObject {
     @Published var accessToken: String?
@@ -17,24 +18,30 @@ class AuthViewModel: ObservableObject {
     @Published var isPresentedLogout = false
 
     private let clientId = "b453a24f-79c5-45a2-b567-da7244a9af4e"
-    private let redirectUri = "com.roadnet.mobile.fleetview://oauth2redirect/"
+    private let issuerUrl = "https://soleranab2bnprd.b2clogin.com/SoleraNAB2BNPrd.onmicrosoft.com/b2c_1a_hrdsignin_v2/v2.0"
+    private let redirectUri = "com.roadnet.mobile.fleetview://oauth2redirect"
     private let authorizationEndpoint = "https://soleranab2bnprd.b2clogin.com/SoleraNAB2BNPrd.onmicrosoft.com/b2c_1a_hrdsignin_v2/oauth2/v2.0/authorize"
     private let tokenEndpoint = "https://soleranab2bnprd.b2clogin.com/SoleraNAB2BNPrd.onmicrosoft.com/b2c_1a_hrdsignin_v2/oauth2/v2.0/token"
-    private let logoutUrl = "https://soleranab2bnprd.b2clogin.com/SoleraNAB2BNPrd.onmicrosoft.com/b2c_1a_hrdsignin_v2/oauth2/v2.0/logout/"
+    private let logoutUrl = "https://soleranab2bnprd.b2clogin.com/SoleraNAB2BNPrd.onmicrosoft.com/b2c_1a_hrdsignin_v2/oauth2/v2.0/logout"
     
     func login(from viewController: UIViewController) {
         
+        SSOAuthentication.initialize(
+            clientId: clientId,
+            issuerUrl: issuerUrl,
+            redirectUri: redirectUri,
+            postLogoutRedirectUri: redirectUri,
+            authorizationEndpoint: authorizationEndpoint,
+            tokenEndpoint: tokenEndpoint,
+            logoutUrl: logoutUrl,
+            scope: [clientId, OIDScopeOpenID, OIDScopeProfile, "offline_access"]
+        )
         
         isLoading = true
         
         isPresentedLogin = true
-        AppAuthManager.shared.authorize(
-            from: viewController,
-            clientId: clientId,
-            redirectUri: redirectUri,
-            authorizationEndpoint: authorizationEndpoint,
-            tokenEndpoint: tokenEndpoint
-        ) { [weak self] accessToken, error in
+                
+        SSOAuthentication.shared.startAuthenticationProcess(from: viewController, username: "ommstdqaeuser1@mail.com", completion: { [weak self] accessToken, error in
             
             DispatchQueue.main.async {
                 self?.isLoading = false
@@ -48,13 +55,14 @@ class AuthViewModel: ObservableObject {
                 
                 self?.isPresentedLogin = false
             }
-        }
+        }) 
+        
     }
     
     func logout(viewController: UIViewController) {
         isPresentedLogout = true
 
-        AppAuthManager.shared.logout(redirectUrl: redirectUri,
+        SSOAuthentication.shared.logout(redirectUrl: redirectUri,
                                      viewController: viewController) { [weak self] endSessionResponse, error in
             
             self?.isPresentedLogout = false
