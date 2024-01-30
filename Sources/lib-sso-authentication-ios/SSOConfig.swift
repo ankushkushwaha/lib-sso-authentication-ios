@@ -7,7 +7,6 @@
 
 
 public struct SSOConfig {
-
     let issuer: String
     let clientID: String
     let redirectUri: String
@@ -16,5 +15,4 @@ public struct SSOConfig {
     let autherizationUrl: String
     let tokenEndpoint: String
     let logoutUrl: String
-
 }

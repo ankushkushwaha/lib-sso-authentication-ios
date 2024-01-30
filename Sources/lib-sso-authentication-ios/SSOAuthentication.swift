@@ -17,7 +17,7 @@ public class SSOAuthentication {
     private var stateHandler = AuthStateService()
     
     public nonisolated(unsafe) static var shared: SSOAuthentication!
-
+    
     public static func initialize(
         clientId: String,
         issuerUrl: String,
@@ -28,10 +28,10 @@ public class SSOAuthentication {
         logoutUrl: String,
         scope: [String]
     ) {
-            guard shared == nil else {
-                print("Warning: MySingleton has already been initialized!")
-                return
-            }
+        guard shared == nil else {
+            print("Warning: MySingleton has already been initialized!")
+            return
+        }
         shared = SSOAuthentication(
             clientId: clientId,
             issuerUrl: issuerUrl,
@@ -42,7 +42,7 @@ public class SSOAuthentication {
             logoutUrl: logoutUrl,
             scope: scope
         )
-
+        
     }
     
     private init(
@@ -151,12 +151,11 @@ public class SSOAuthentication {
             if let authState = authState {
                 
                 self.stateHandler.setAuthState(authState)
-
+                
                 let response = authState.lastTokenResponse
                 completion(response?.accessToken, nil)
                 
 #if DEBUG
-                
                 print("\n*** ACCESS_TOKEN ****\n")
                 
                 print(response?.accessToken ?? "ACCESS_TOKEN is not available")
@@ -188,7 +187,6 @@ public class SSOAuthentication {
         }
     }
     
-    
     private func fetchDiscoveryConfig(
         completion: @escaping ((OIDServiceConfiguration?, Error?) -> Void)) {
             
@@ -207,66 +205,65 @@ public class SSOAuthentication {
                 }
                 completion(configuration, nil)
             }
-    }
+        }
     
     public func logout(viewController: UIViewController,
-                completion: @escaping ((Bool, SSOError?) -> Void)) {
+                       completion: @escaping ((Bool, SSOError?) -> Void)) {
         
         guard let configuration = stateHandler.savedAuthState?.lastAuthorizationResponse.request.configuration,
               let idToken = stateHandler.savedAuthState?.lastTokenResponse?.idToken,
               let redirectUrl = URL(string: self.config.redirectUri) else {
             return
         }
-
+        
         let endSessionRequest = OIDEndSessionRequest(
             configuration: configuration,
             idTokenHint: idToken,
             postLogoutRedirectURL: redirectUrl,
             additionalParameters: nil)
-
+        
         guard let agent = OIDExternalUserAgentIOS(presenting: viewController,
                                                   prefersEphemeralSession: true) else {
             return
         }
-
+        
         userAgentSession = OIDAuthorizationService.present(
             endSessionRequest,
             externalUserAgent: agent) { [weak self] response, error in
                 guard let `self` = self else { return }
-
+                
                 if let error = error,
                    let errorCode = (error as? NSError)?.code,
                    let oidErrorCode = OIDErrorCode(rawValue: errorCode) {
-
+                    
                     // If browser is dismissed by user
-
+                    
                     let ssoError = SSOError(errorCode: oidErrorCode, error)
-
+                    
                     // Logout user anyway, if browser dismisssed by user
                     self.stateHandler.setAuthState(nil)
                     completion(true, ssoError)
-
+                    
                     return
                 }
-
+                
                 if let error = error {
-
+                    
                     completion(false, SSOError.unknownError(error))
                     return
                 }
-
+                
                 guard let response = response else {
                     print("Authorization response is nil.")
-
+                    
                     completion(false, SSOError.unknownError(error))
                     return
                 }
-
-
+                
                 print("Authorization response: \(response)")
-
+                
                 self.stateHandler.setAuthState(nil)
-
+                
                 completion(true, nil)
             }
     }
@@ -276,7 +273,6 @@ public class SSOAuthentication {
 enum AppAuthConstants {
     static let ssoLoginHint = "login_hint"
 }
-
 
 public extension SSOAuthentication {
     
@@ -294,5 +290,4 @@ public extension SSOAuthentication {
             }
         }
     }
-    
 }
