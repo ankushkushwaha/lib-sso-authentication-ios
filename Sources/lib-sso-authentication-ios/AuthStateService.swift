@@ -10,32 +10,40 @@ import AppAuth
 
 public struct AuthStateService {
     
-    private let key = "com.roadnet.authApp.authState"
-    
-    func saveAuthState(_ authState: OIDAuthState) {
-        do {
-            let archivedData = try NSKeyedArchiver.archivedData(withRootObject: authState, requiringSecureCoding: true)
-            UserDefaults.standard.set(archivedData, forKey: key)
-            UserDefaults.standard.synchronize()
-            print("AuthState saved successfully.")
-        } catch {
-            print("Error saving AuthState: \(error.localizedDescription)")
-        }
+    private(set) var savedAuthState: OIDAuthState?
+    private let kAppAuthStateKey: String = "kAppAuthStateKey"
+    private let userDefaultSuiteName: String = "com.omm.appauth"
+
+    init() {
+        loadState()
     }
-    
-    func getAuthState() -> OIDAuthState? {
-        guard let archivedData = UserDefaults.standard.data(forKey: key) else {
-            print("No AuthState found in storage.")
-            return nil
+
+    private func saveState() {
+
+        var data: Data?
+
+        if let savedAuthState = self.savedAuthState {
+            data = NSKeyedArchiver.archivedData(withRootObject: savedAuthState)
         }
-        do {
-            let authState = try NSKeyedUnarchiver.unarchivedObject(ofClass: OIDAuthState.self, from: archivedData)
-            print("AuthState loaded successfully.")
-            return authState
-        } catch {
-            print("Error loading AuthState: \(error.localizedDescription)")
-            return nil
+
+        if let userDefaults = UserDefaults(suiteName: userDefaultSuiteName) {
+            userDefaults.set(data, forKey: kAppAuthStateKey)
+            userDefaults.synchronize()
         }
     }
 
+    mutating func loadState() {
+        guard let data = UserDefaults(suiteName: userDefaultSuiteName)?.object(forKey: kAppAuthStateKey) as? Data else {
+            return
+        }
+
+        if let authState = NSKeyedUnarchiver.unarchiveObject(with: data) as? OIDAuthState {
+            self.setAuthState(authState)
+        }
+    }
+
+    mutating func setAuthState(_ authState: OIDAuthState?) {
+        self.savedAuthState = authState
+        self.saveState()
+    }
 }

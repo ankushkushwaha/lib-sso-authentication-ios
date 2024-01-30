@@ -56,18 +56,20 @@ class AuthViewModel: ObservableObject {
                 self?.isPresentedLogin = false
             }
         }) 
-        
     }
     
     func logout(viewController: UIViewController) {
+        if SSOAuthentication.shared.accessToken == nil {
+            return
+        }
+        
         isPresentedLogout = true
 
-        SSOAuthentication.shared.logout(redirectUrl: redirectUri,
-                                     viewController: viewController) { [weak self] endSessionResponse, error in
+        SSOAuthentication.shared.logout(viewController: viewController) {
+            [weak self] endSessionResponse, error in
             
             self?.isPresentedLogout = false
         }
     }
-    
     
 }

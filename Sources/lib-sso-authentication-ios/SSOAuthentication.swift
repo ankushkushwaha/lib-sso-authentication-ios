@@ -14,7 +14,7 @@ public class SSOAuthentication {
     private var userAgentSession: OIDExternalUserAgentSession?
     private var authState: OIDAuthState?
     private var config: SSOConfig
-    private var authStateService = AuthStateService()
+    private var stateHandler = AuthStateService()
     
     public nonisolated(unsafe) static var shared: SSOAuthentication!
 
@@ -68,6 +68,9 @@ public class SSOAuthentication {
         )
     }
     
+    public var accessToken: String? {
+        stateHandler.savedAuthState?.lastTokenResponse?.accessToken
+    }
     
     public func startAuthenticationProcess(
         from viewController: UIViewController,
@@ -116,56 +119,6 @@ public class SSOAuthentication {
                 return
             }
         }
-        
-        
-        
-        //        guard let authEndpoint = URL(string: config.autherizationUrl),
-        //              let tokenEndpoint = URL(string: config.tokenEndpoint),
-        //              let redirectUri = URL(string: config.redirectUri) else {
-        //            completion(nil, NSError(domain: "AppAuthManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"]))
-        //            return
-        //        }
-        //
-        //        let config = OIDServiceConfiguration(authorizationEndpoint: authEndpoint, tokenEndpoint: tokenEndpoint)
-        //
-        //        // Step 1: Fetch Discovery document config
-        //
-        //        var hint: [String: String]? = nil
-        //        if let username {
-        //            hint = [AppAuthConstants.ssoLoginHint: username]
-        //        }
-        //
-        //        let request = OIDAuthorizationRequest(
-        //            configuration: config,
-        //            clientId: clientId,
-        //            clientSecret: nil,
-        //            scopes: [clientId, OIDScopeOpenID, OIDScopeProfile, "offline_access"],
-        //            redirectURL: redirectUri,
-        //            responseType: OIDResponseTypeCode,
-        //            additionalParameters: hint
-        //        )
-        //
-        //        userAgentSession = OIDAuthState.authState(
-        //            byPresenting: request,
-        //            presenting: viewController
-        //        ) { [weak self] authState, error in
-        //            if let error = error {
-        //                completion(nil, error)
-        //                return
-        //            }
-        //
-        //            guard let authState = authState else {
-        //                completion(nil, NSError(domain: "AppAuthManager", code: -1, userInfo: [NSLocalizedDescriptionKey: "Authorization failed"]))
-        //                return
-        //            }
-        //
-        //            self?.authState = authState
-        //            let accessToken = authState.lastTokenResponse?.accessToken
-        //
-        //            self?.authStateService.saveAuthState(authState)
-        //
-        //            completion(accessToken, nil)
-        //        }
     }
     
     private func startLogin(username: String?,
@@ -197,8 +150,8 @@ public class SSOAuthentication {
             
             if let authState = authState {
                 
-                self.authStateService.saveAuthState(authState)
-                
+                self.stateHandler.setAuthState(authState)
+
                 let response = authState.lastTokenResponse
                 completion(response?.accessToken, nil)
                 
@@ -256,47 +209,65 @@ public class SSOAuthentication {
             }
     }
     
-    public func logout(redirectUrl: String,
-                       viewController: UIViewController,
-                       completion: @escaping ((OIDEndSessionResponse?, Error?) -> Void)) {
+    public func logout(viewController: UIViewController,
+                completion: @escaping ((Bool, SSOError?) -> Void)) {
         
-        
-        guard let savedAuthState = authStateService.getAuthState(),
-              let idToken = savedAuthState.lastTokenResponse?.idToken else {
-            completion(nil, nil)
+        guard let configuration = stateHandler.savedAuthState?.lastAuthorizationResponse.request.configuration,
+              let idToken = stateHandler.savedAuthState?.lastTokenResponse?.idToken,
+              let redirectUrl = URL(string: self.config.redirectUri) else {
             return
         }
-        
-        guard let redirectUrl = URL(string: redirectUrl) else {
-            completion(nil, nil)
-            return
-        }
-        
-        let configuration = savedAuthState.lastAuthorizationResponse.request.configuration
-        
+
         let endSessionRequest = OIDEndSessionRequest(
             configuration: configuration,
             idTokenHint: idToken,
             postLogoutRedirectURL: redirectUrl,
             additionalParameters: nil)
-        
-        
-        guard #available(iOS 13, *) else {
-            print("This feature requires iOS 13 or later.")
-            completion(nil, nil)
-            return
-        }
-        
+
         guard let agent = OIDExternalUserAgentIOS(presenting: viewController,
                                                   prefersEphemeralSession: true) else {
             return
         }
-        
-        
+
         userAgentSession = OIDAuthorizationService.present(
             endSessionRequest,
             externalUserAgent: agent) { [weak self] response, error in
-                completion(response, error)
+                guard let `self` = self else { return }
+
+                if let error = error,
+                   let errorCode = (error as? NSError)?.code,
+                   let oidErrorCode = OIDErrorCode(rawValue: errorCode) {
+
+                    // If browser is dismissed by user
+
+                    let ssoError = SSOError(errorCode: oidErrorCode, error)
+
+                    // Logout user anyway, if browser dismisssed by user
+                    self.stateHandler.setAuthState(nil)
+                    completion(true, ssoError)
+
+                    return
+                }
+
+                if let error = error {
+
+                    completion(false, SSOError.unknownError(error))
+                    return
+                }
+
+                guard let response = response else {
+                    print("Authorization response is nil.")
+
+                    completion(false, SSOError.unknownError(error))
+                    return
+                }
+
+
+                print("Authorization response: \(response)")
+
+                self.stateHandler.setAuthState(nil)
+
+                completion(true, nil)
             }
     }
     
