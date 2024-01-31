@@ -29,7 +29,9 @@ public class SSOAuthentication {
         scope: [String]
     ) {
         guard shared == nil else {
-            print("Warning: MySingleton has already been initialized!")
+#if DEBUG
+            print("Warning: SSOAuthentication has already been initialized!")
+#endif
             return
         }
         shared = SSOAuthentication(
@@ -88,7 +90,9 @@ public class SSOAuthentication {
                 guard let authorizationEndpoint = URL(string: self.config.autherizationUrl),
                       let tokenEndpoint = URL(string: self.config.tokenEndpoint),
                       let logoutUrl = URL(string: self.config.logoutUrl) else {
+#if DEBUG
                     print("SSO cofiguration is missing.")
+#endif
                     return
                 }
                 
@@ -254,14 +258,16 @@ public class SSOAuthentication {
                 }
                 
                 guard let response = response else {
+#if DEBUG
                     print("Authorization response is nil.")
-                    
+#endif
                     completion(false, SSOError.unknownError(error))
                     return
                 }
                 
+#if DEBUG
                 print("Authorization response: \(response)")
-                
+#endif
                 self.stateHandler.setAuthState(nil)
                 
                 completion(true, nil)
