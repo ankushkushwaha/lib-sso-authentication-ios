@@ -1,1 +1,0 @@
-# lib-sso-authentication-ios
