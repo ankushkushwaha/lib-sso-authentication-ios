@@ -18,7 +18,11 @@ let package = Package(
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "lib-sso-authentication-ios"),
+            name: "lib-sso-authentication-ios",
+            dependencies: [
+                .product(name: "AppAuth", package: "appauth-iOS")
+            ]
+        ),
         .testTarget(
             name: "lib-sso-authentication-iosTests",
             dependencies: ["lib-sso-authentication-ios"]
