@@ -14,22 +14,9 @@
 		54595F462D3F9190004E2929 /* DemoProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		54595F7F2D3F9298004E2929 /* Exceptions for "DemoProject" folder in "DemoProject" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"lib-sso-authentication-ios copy",
-			);
-			target = 54595F452D3F9190004E2929 /* DemoProject */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		54595F792D3F9298004E2929 /* DemoProject */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				54595F7F2D3F9298004E2929 /* Exceptions for "DemoProject" folder in "DemoProject" target */,
-			);
 			path = DemoProject;
 			sourceTree = "<group>";
 		};
