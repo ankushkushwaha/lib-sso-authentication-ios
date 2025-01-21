@@ -11,6 +11,9 @@ let package = Package(
             name: "lib-sso-authentication-ios",
             targets: ["lib-sso-authentication-ios"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/openid/AppAuth-iOS.git", from: "1.7.6")
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
