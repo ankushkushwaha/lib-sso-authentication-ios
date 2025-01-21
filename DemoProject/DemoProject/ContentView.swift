@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import lib_sso_authentication_ios
 
 struct ContentView: View {
     var body: some View {

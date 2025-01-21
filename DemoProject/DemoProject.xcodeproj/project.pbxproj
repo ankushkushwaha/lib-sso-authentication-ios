@@ -6,13 +6,30 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		54595F662D3F9245004E2929 /* lib-sso-authentication-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 54595F652D3F9245004E2929 /* lib-sso-authentication-ios */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		54595F462D3F9190004E2929 /* DemoProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		54595F7F2D3F9298004E2929 /* Exceptions for "DemoProject" folder in "DemoProject" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"lib-sso-authentication-ios copy",
+			);
+			target = 54595F452D3F9190004E2929 /* DemoProject */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		54595F482D3F9190004E2929 /* DemoProject */ = {
+		54595F792D3F9298004E2929 /* DemoProject */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				54595F7F2D3F9298004E2929 /* Exceptions for "DemoProject" folder in "DemoProject" target */,
+			);
 			path = DemoProject;
 			sourceTree = "<group>";
 		};
@@ -23,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54595F662D3F9245004E2929 /* lib-sso-authentication-ios in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,7 +50,8 @@
 		54595F3D2D3F9190004E2929 = {
 			isa = PBXGroup;
 			children = (
-				54595F482D3F9190004E2929 /* DemoProject */,
+				54595F792D3F9298004E2929 /* DemoProject */,
+				54595F642D3F9245004E2929 /* Frameworks */,
 				54595F472D3F9190004E2929 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +62,13 @@
 				54595F462D3F9190004E2929 /* DemoProject.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		54595F642D3F9245004E2929 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -61,10 +87,11 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				54595F482D3F9190004E2929 /* DemoProject */,
+				54595F792D3F9298004E2929 /* DemoProject */,
 			);
 			name = DemoProject;
 			packageProductDependencies = (
+				54595F652D3F9245004E2929 /* lib-sso-authentication-ios */,
 			);
 			productName = DemoProject;
 			productReference = 54595F462D3F9190004E2929 /* DemoProject.app */;
@@ -324,6 +351,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		54595F652D3F9245004E2929 /* lib-sso-authentication-ios */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "lib-sso-authentication-ios";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 54595F3E2D3F9190004E2929 /* Project object */;
 }
