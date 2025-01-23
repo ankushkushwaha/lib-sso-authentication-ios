@@ -30,6 +30,8 @@ struct ContentView: View {
                     .padding()
             }
 
+            let isLoginNeeded = viewModel.accessToken == nil
+            
             Button(action: {
                 viewModel.isPresentedLogin = true
             }) {
@@ -40,6 +42,8 @@ struct ContentView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
+            .disabled(!isLoginNeeded)
+            .opacity(isLoginNeeded ? 1.0 : 0.6)
             .sheet(isPresented: $viewModel.isPresentedLogin) {
                 LoginUIView(viewModel: viewModel)
             }
@@ -54,6 +58,8 @@ struct ContentView: View {
                     .foregroundColor(.white)
                     .cornerRadius(8)
             }
+            .disabled(isLoginNeeded)
+            .opacity(!isLoginNeeded ? 1.0 : 0.6)
             .sheet(isPresented: $viewModel.isPresentedLogout) {
                 LogoutUIView(viewModel: viewModel)
             }

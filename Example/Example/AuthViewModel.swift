@@ -51,8 +51,8 @@ class AuthViewModel: ObservableObject {
                     return
                 }
                 
-                self?.accessToken = accessToken
-                
+                self?.accessToken = SSOAuthentication.shared.accessToken
+
                 self?.isPresentedLogin = false
             }
         }) 
@@ -69,6 +69,8 @@ class AuthViewModel: ObservableObject {
             [weak self] endSessionResponse, error in
             
             self?.isPresentedLogout = false
+            
+            self?.accessToken = SSOAuthentication.shared.accessToken
         }
     }
     
