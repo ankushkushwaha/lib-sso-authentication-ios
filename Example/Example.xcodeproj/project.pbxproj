@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		549983FD2D40C19700DAEA7A /* lib-sso-authentication-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 549983FC2D40C19700DAEA7A /* lib-sso-authentication-ios */; };
+		5499846E2D40C71F00DAEA7A /* lib-sso-authentication-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 5499846D2D40C71F00DAEA7A /* lib-sso-authentication-ios */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5499846E2D40C71F00DAEA7A /* lib-sso-authentication-ios in Frameworks */,
 				549983FD2D40C19700DAEA7A /* lib-sso-authentication-ios in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,6 +86,7 @@
 			name = Example;
 			packageProductDependencies = (
 				549983FC2D40C19700DAEA7A /* lib-sso-authentication-ios */,
+				5499846D2D40C71F00DAEA7A /* lib-sso-authentication-ios */,
 			);
 			productName = Example;
 			productReference = 549983EA2D40C06700DAEA7A /* Example.app */;
@@ -114,7 +117,7 @@
 			mainGroup = 549983E12D40C06700DAEA7A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				549983FB2D40C19700DAEA7A /* XCLocalSwiftPackageReference "../../lib" */,
+				5499846C2D40C71F00DAEA7A /* XCLocalSwiftPackageReference "../../lib-sso-authentication-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 549983EB2D40C06700DAEA7A /* Products */;
@@ -350,14 +353,18 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		549983FB2D40C19700DAEA7A /* XCLocalSwiftPackageReference "../../lib" */ = {
+		5499846C2D40C71F00DAEA7A /* XCLocalSwiftPackageReference "../../lib-sso-authentication-ios" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../lib;
+			relativePath = "../../lib-sso-authentication-ios";
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		549983FC2D40C19700DAEA7A /* lib-sso-authentication-ios */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "lib-sso-authentication-ios";
+		};
+		5499846D2D40C71F00DAEA7A /* lib-sso-authentication-ios */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "lib-sso-authentication-ios";
 		};
