@@ -1,24 +1,72 @@
 //
 //  ContentView.swift
-//  Example
+//  DemoProject
 //
-//  Created by Ankush Kushwaha on 22/01/25.
+//  Created by Ankush Kushwaha on 21/01/25.
 //
 
 import SwiftUI
-import AppAuth
 import lib_sso_authentication_ios
 
 struct ContentView: View {
+    @StateObject private var viewModel = AuthViewModel()
+
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        VStack(spacing: 20) {
+            if let token = viewModel.accessToken {
+                Text("Access Token:")
+                    .font(.headline)
+                Text(token)
+                    .font(.subheadline)
+                    .foregroundColor(.green)
+                    .padding()
+                
+            } else if let error = viewModel.errorMessage {
+                Text("Error:")
+                    .font(.headline)
+                Text(error)
+                    .font(.subheadline)
+                    .foregroundColor(.red)
+                    .padding()
+            }
+
+            Button(action: {
+                viewModel.isPresented = true
+            }) {
+                Text("Login")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+            .sheet(isPresented: $viewModel.isPresented) {
+                LoginUIView(viewModel: viewModel)
+            }
         }
         .padding()
+        .overlay(
+            Group {
+                if viewModel.isLoading {
+                    ProgressView("Loading...")
+                }
+            }
+        )
     }
+}
+
+struct LoginUIView: UIViewControllerRepresentable {
+    let viewModel: AuthViewModel
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        let viewController = UIViewController()
+        DispatchQueue.main.async {
+            viewModel.login(from: viewController)
+        }
+        return viewController
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
 }
 
 #Preview {
