@@ -8,15 +8,29 @@
 
 /* Begin PBXBuildFile section */
 		549983FD2D40C19700DAEA7A /* lib-sso-authentication-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 549983FC2D40C19700DAEA7A /* lib-sso-authentication-ios */; };
+		5499846E2D40C71F00DAEA7A /* lib-sso-authentication-ios in Frameworks */ = {isa = PBXBuildFile; productRef = 5499846D2D40C71F00DAEA7A /* lib-sso-authentication-ios */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		549983EA2D40C06700DAEA7A /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		549984422D40C3C400DAEA7A /* Exceptions for "Example" folder in "Example" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 549983E92D40C06700DAEA7A /* Example */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		549983EC2D40C06700DAEA7A /* Example */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				549984422D40C3C400DAEA7A /* Exceptions for "Example" folder in "Example" target */,
+			);
 			path = Example;
 			sourceTree = "<group>";
 		};
@@ -27,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5499846E2D40C71F00DAEA7A /* lib-sso-authentication-ios in Frameworks */,
 				549983FD2D40C19700DAEA7A /* lib-sso-authentication-ios in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,6 +86,7 @@
 			name = Example;
 			packageProductDependencies = (
 				549983FC2D40C19700DAEA7A /* lib-sso-authentication-ios */,
+				5499846D2D40C71F00DAEA7A /* lib-sso-authentication-ios */,
 			);
 			productName = Example;
 			productReference = 549983EA2D40C06700DAEA7A /* Example.app */;
@@ -101,7 +117,7 @@
 			mainGroup = 549983E12D40C06700DAEA7A;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				549983FB2D40C19700DAEA7A /* XCLocalSwiftPackageReference "../../lib" */,
+				5499846C2D40C71F00DAEA7A /* XCLocalSwiftPackageReference "../../lib-sso-authentication-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 549983EB2D40C06700DAEA7A /* Products */;
@@ -264,11 +280,11 @@
 				DEVELOPMENT_TEAM = A7LYW5ZPHC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -293,11 +309,11 @@
 				DEVELOPMENT_TEAM = A7LYW5ZPHC;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Example/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -335,14 +351,18 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		549983FB2D40C19700DAEA7A /* XCLocalSwiftPackageReference "../../lib" */ = {
+		5499846C2D40C71F00DAEA7A /* XCLocalSwiftPackageReference "../../lib-sso-authentication-ios" */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../lib;
+			relativePath = "../../lib-sso-authentication-ios";
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		549983FC2D40C19700DAEA7A /* lib-sso-authentication-ios */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = "lib-sso-authentication-ios";
+		};
+		5499846D2D40C71F00DAEA7A /* lib-sso-authentication-ios */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = "lib-sso-authentication-ios";
 		};
