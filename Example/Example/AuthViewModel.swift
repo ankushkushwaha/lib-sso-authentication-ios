@@ -24,7 +24,7 @@ class AuthViewModel: ObservableObject {
     private let tokenEndpoint = "https://soleranab2bnprd.b2clogin.com/SoleraNAB2BNPrd.onmicrosoft.com/b2c_1a_hrdsignin_v2/oauth2/v2.0/token"
     private let logoutUrl = "https://soleranab2bnprd.b2clogin.com/SoleraNAB2BNPrd.onmicrosoft.com/b2c_1a_hrdsignin_v2/oauth2/v2.0/logout"
     
-    func login(from viewController: UIViewController) {
+    init(accessToken: String? = nil, errorMessage: String? = nil, isLoading: Bool = false, isPresentedLogin: Bool = false, isPresentedLogout: Bool = false) {
         
         SSOAuthentication.initialize(
             clientId: clientId,
@@ -37,6 +37,15 @@ class AuthViewModel: ObservableObject {
             scope: [clientId, OIDScopeOpenID, OIDScopeProfile, "offline_access"]
         )
         
+        self.accessToken = SSOAuthentication.shared.accessToken
+        self.errorMessage = errorMessage
+        self.isLoading = isLoading
+        self.isPresentedLogin = isPresentedLogin
+        self.isPresentedLogout = isPresentedLogout
+    }
+    
+    func login(from viewController: UIViewController) {
+                
         isLoading = true
         
         isPresentedLogin = true
