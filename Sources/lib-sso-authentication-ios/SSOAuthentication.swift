@@ -115,8 +115,7 @@ public class SSOAuthentication {
             self.startLogin(username: username,
                             configuration: configuration,
                             viewController: viewController) {
-                accessToken,
-                error in
+                accessToken, error in
                 
                 completion(accessToken, error)
                 
