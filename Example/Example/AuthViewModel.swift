@@ -55,8 +55,19 @@ class AuthViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self?.isLoading = false
                 
-                if let error = error {
-                    self?.errorMessage = error.localizedDescription
+                if error != nil {
+                    
+                    switch error {
+                    case .autherizationCancelled:
+                        self?.errorMessage = "User cancelled the login."
+                    case .errorWithDescription(let description):
+                        self?.errorMessage = description
+                    case .unknownError(let error):
+                        self?.errorMessage = error?.localizedDescription
+                    default:
+                        self?.errorMessage = "Unknown Error"
+                    }
+                    
                     return
                 }
                 
