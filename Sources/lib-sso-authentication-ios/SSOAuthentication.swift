@@ -77,7 +77,7 @@ public class SSOAuthentication {
     public func startAuthenticationProcess(
         from viewController: UIViewController,
         username: String?,
-        completion: @escaping (String?, Error?) -> Void
+        completion: @escaping (String?, SSOError?) -> Void
     ) {
         
         fetchDiscoveryConfig { fetchedConfig, error in
@@ -156,7 +156,13 @@ public class SSOAuthentication {
                 self.stateHandler.setAuthState(authState)
                 
                 let response = authState.lastTokenResponse
-                completion(response?.accessToken, nil)
+                
+                if let accessToken = response?.accessToken {
+                    completion(response?.accessToken, nil)
+                } else {
+                    completion(nil, SSOError.errorWithDescription("No acces_token fetched. Please check your configuration and scopes.") )
+
+                }
                 
 #if DEBUG
                 print("\n*** ACCESS_TOKEN ****\n")
