@@ -55,6 +55,8 @@ class AuthViewModel: ObservableObject {
             DispatchQueue.main.async {
                 self?.isLoading = false
                 
+                self?.isPresentedLogin = false
+
                 if error != nil {
                     
                     switch error {
@@ -72,8 +74,6 @@ class AuthViewModel: ObservableObject {
                 }
                 
                 self?.accessToken = SSOAuthentication.shared.accessToken
-
-                self?.isPresentedLogin = false
             }
         }) 
     }
