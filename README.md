@@ -21,9 +21,9 @@
 
 ```
 // Login
-               SSOAuthentication.shared.startAuthenticationProcess(from: viewController, username: nil, completion: { [weak self] accessToken, error in 
+        SSOAuthentication.shared.startAuthenticationProcess(from: viewController, username: nil, completion: { [weak self] accessToken, error in 
                
-               })
+        })
                
  // Logout 
  
