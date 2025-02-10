@@ -24,5 +24,12 @@
                SSOAuthentication.shared.startAuthenticationProcess(from: viewController, username: nil, completion: { [weak self] accessToken, error in 
                
                })
+               
+ // Logout 
+ 
+         SSOAuthentication.shared.logout(viewController: viewController) {
+            [weak self] endSessionResponse, error in
+            
+        }
 ```
 
