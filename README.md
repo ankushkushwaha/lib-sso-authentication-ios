@@ -13,7 +13,7 @@
             authorizationEndpoint: authorizationEndpoint,
             tokenEndpoint: tokenEndpoint,
             logoutUrl: logoutUrl,
-            scope: [clientId, OIDScopeOpenID, OIDScopeProfile, "offline_access"]
+            scope: [clientId, OIDScopeOpenID, OIDScopeProfile, "offline_access"] // Add scopes accouring to your need
         )
 ```
 
